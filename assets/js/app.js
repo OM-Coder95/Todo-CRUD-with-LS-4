@@ -1,56 +1,30 @@
 const cl = console.log;
 
-let todoArr = [
-  {
-    id: "101",
-    taskName: "Go to Gym",
-    priority: "High",
-  },
-  {
-    id: "102",
-    taskName: "Complete JavaScript Practice",
-    priority: "High",
-  },
-  {
-    id: "103",
-    taskName: "Buy Groceries",
-    priority: "Medium",
-  },
-  {
-    id: "104",
-    taskName: "Read a Book",
-    priority: "Low",
-  },
-  {
-    id: "105",
-    taskName: "Complete HTML Project",
-    priority: "High",
-  },
-  {
-    id: "106",
-    taskName: "Clean the Room",
-    priority: "Low",
-  },
-  {
-    id: "107",
-    taskName: "Practice CSS",
-    priority: "Medium",
-  },
-  {
-    id: "108",
-    taskName: "Watch JavaScript Tutorial",
-    priority: "Medium",
-  },
-  {
-    id: "109",
-    taskName: "Go for a Walk",
-    priority: "Low",
-  },
-  {
-    id: "110",
-    taskName: "Complete Todo CRUD",
-    priority: "High",
-  },
-];
+const todocontainer = document.getElementById("todocontainer");
 
-localStorage.setItem("todoArr", JSON.stringify(todoArr));
+let jsonArr = localStorage.getItem("todoArr");
+
+let todoArr = jsonArr ? JSON.parse(jsonArr) : [];
+
+// Read
+
+function showOnUI(arr) {
+  let result = "";
+
+  arr.forEach((ele, i) => {
+    result += `
+                                <tr id="${ele.id}">
+                                    <td>${i + 1}</td>
+                                    <td>${ele.taskName}</td>
+                                    <td>${ele.priority}</td>
+                                    <td>
+                                        <i class="fa-regular fa-pen-to-square fa-2x text-primary"></i>
+                                        <i class="fa-solid fa-trash-can fa-2x text-danger"></i>
+                                    </td>
+                                </tr>
+        `;
+  });
+  todocontainer.innerHTML = result;
+}
+
+showOnUI(todoArr);
