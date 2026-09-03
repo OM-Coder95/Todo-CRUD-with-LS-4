@@ -50,6 +50,7 @@ function onTodoAdd(event) {
 
   todoArr.push(newTodo);
   saveTodos();
+  form.reset();
 
   let tr = document.createElement("tr");
 
