@@ -1,0 +1,170 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #eef0ff, #f5faff);
+    font-family: Arial, Helvetica, sans-serif;
+    color: #172033;
+}
+
+/* header */
+
+.heading h1 {
+    text-align: center;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.heading p {
+    color: #63808a;
+    font-size: 20px;
+    margin-bottom: 0;
+}
+
+/* card */
+
+.todoCard {
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(50, 70, 120, 0.12);
+    overflow: hidden;
+}
+
+.todoBody {
+    padding: 28px 35px;
+}
+
+/* Section Headings */
+
+.todoBody .sectionHeading {
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.todoBody .sectionHeading h3 {
+    margin: 0 0 0 15px;
+    font-size: 27px;
+    font-weight: 600;
+}
+
+/* form */
+
+label {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* button */
+
+.submitBtn,
+.updateBtn {
+    height: 52px;
+    min-width: 145px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.submitBtn i,
+.updateBtn i {
+    margin-right: 8px;
+}
+
+.submitBtn {
+    background: #5b4de8;
+    border-color: #5b4de8;
+}
+
+.submitBtn:hover {
+    background: #493bd5;
+}
+
+.updateBtn {
+    background: white;
+    color: #13a05a;
+    border: 1px solid #8de0b4;
+}
+
+.updateBtn:hover {
+    background: #ecfff4;
+    color: #172033;
+}
+
+/* todo list */
+
+.todoTable thead {
+    background: #f0f0ff;
+}
+
+.todoTable thead th {
+    border: none;
+    padding: 17px;
+    font-size: 16px;
+}
+
+.todoTable tbody td {
+    padding: 17px;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.todoTable tbody tr:hover {
+    background: #fafaff;
+}
+
+/* Action Icons */
+
+.todoTable tbody td i {
+    cursor: pointer;
+    margin: 0 8px;
+    transition: transform 0.2s ease;
+}
+
+.todoTable tbody td i:hover {
+    transform: scale(1.15);
+}
+
+/* Delete all */
+
+.todoBody .deleteAll {
+    border: 1px solid #ff9b9b;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: 600;
+    background: white;
+}
+
+.todoBody .deleteAll:hover {
+    background: #fff1f1;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+    .container .heading h1 {
+        font-size: 36px;
+    }
+
+    .todoBody {
+        padding: 20px;
+    }
+
+    .submitBtn,
+    .updateBtn {
+        width: 48%;
+    }
+
+    .todoTable {
+        font-size: 14px;
+    }
+
+    .todoTable thead th,
+    .todoTable tbody td {
+        padding: 10px 5px;
+    }
+}
