@@ -32,10 +32,45 @@ function hideTable() {
 // DeleteAll
 
 function onDeleteAllClick() {
-  todoArr = [];
-  saveTodos();
-  showOnUI(todoArr);
-  hideTable();
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    buttonsStyling: false,
+  });
+  swalWithBootstrapButtons
+    .fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Delete All!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        todoArr = [];
+        saveTodos();
+        showOnUI(todoArr);
+        hideTable();
+
+        swalWithBootstrapButtons.fire({
+          title: "Deleted!",
+          text: "All Todo has been deleted.",
+          icon: "success",
+          timer: 1500,
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel)
+        /* Read more about handling dismissals below */
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          text: "Your Todo's are safe :)",
+          icon: "error",
+          timer: 1500,
+        });
+    });
 }
 
 // Read
@@ -50,8 +85,8 @@ function showOnUI(arr) {
                                     <td>${ele.taskName}</td>
                                     <td>${ele.priority}</td>
                                     <td>
-                                        <i onclick="editTodo(this)" class="fa-regular fa-pen-to-square fa-2x text-primary"></i>
-                                        <i onclick="removeTodo(this)" class="fa-solid fa-trash-can fa-2x text-danger"></i>
+                                        <button onclick="editTodo(this)" class="btn"><i class="fa-regular fa-pen-to-square fa-2x text-primary"></i></button>
+                                        <button onclick="removeTodo(this)" class="btn deleteIcon"><i class="fa-solid fa-trash-can fa-2x text-danger"></i></button>
                                     </td>
                                 </tr>
         `;
@@ -104,8 +139,8 @@ function onTodoAdd(event) {
                                     <td>${newTodo.taskName}</td>
                                     <td>${newTodo.priority}</td>
                                     <td>
-                                        <i onclick="editTodo(this)" class="fa-regular fa-pen-to-square fa-2x text-primary"></i>
-                                        <i onclick="removeTodo(this)" class="fa-solid fa-trash-can fa-2x text-danger"></i>
+                                        <button onclick="editTodo(this)" class="btn"><i class="fa-regular fa-pen-to-square fa-2x text-primary"></i></button>
+                                        <button onclick="removeTodo(this)" class="btn deleteIcon"><i class="fa-solid fa-trash-can fa-2x text-danger"></i></button>
                                     </td>
   `;
 
@@ -117,6 +152,12 @@ function onTodoAdd(event) {
 function editTodo(ele) {
   let editId = ele.closest("tr").id;
   localStorage.setItem("editId", editId);
+
+  let tr = ele.closest("tr");
+  let deleteIcon = tr.querySelector(".deleteIcon");
+  deleteIcon.disabled = true;
+
+  deleteAll.disabled = true;
 
   let editObj = todoArr.find((ele) => ele.id === editId);
   if (!editObj) return;
@@ -172,6 +213,11 @@ function onUpdateClick() {
   submitBtn.classList.remove("d-none");
   localStorage.removeItem("editId");
   form.reset();
+
+  let tr = (document
+    .getElementById(updateId)
+    .querySelector(".deleteIcon").disabled = false);
+  deleteAll.disabled = false;
 }
 
 // remove Todo
@@ -207,7 +253,7 @@ function removeTodo(ele) {
 
         swalWithBootstrapButtons.fire({
           title: "Deleted!",
-          text: "Your file has been deleted.",
+          text: "Your Todo has been deleted.",
           icon: "success",
           timer: 1500,
         });
@@ -222,7 +268,7 @@ function removeTodo(ele) {
         /* Read more about handling dismissals below */
         swalWithBootstrapButtons.fire({
           title: "Cancelled",
-          text: "Your imaginary file is safe :)",
+          text: "Your Todo is safe :)",
           icon: "error",
           timer: 1500,
         });
