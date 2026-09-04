@@ -62,12 +62,10 @@ label {
 
 .submitBtn,
 .updateBtn {
-    height: 52px;
-    min-width: 145px;
+    height: 40px;
     border-radius: 8px;
     font-size: 15px;
     font-weight: 600;
-    margin-right: 5px;
 }
 
 .submitBtn i,
