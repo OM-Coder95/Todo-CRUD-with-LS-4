@@ -45,12 +45,12 @@ function onTodoAdd(event) {
   event.preventDefault();
 
   if (!taskName.value.trim() || !priority.value.trim()) {
-Swal.fire({
-    title: "Required Fields!",
-    text: "Please fill in all the fields.",
-    icon: "warning",
-    timer: 1500,
-});
+    Swal.fire({
+      title: "Required Fields!",
+      text: "Please fill in all the fields.",
+      icon: "warning",
+      timer: 1500,
+    });
     return;
   }
 
@@ -62,6 +62,13 @@ Swal.fire({
 
   todoArr.push(newTodo);
   saveTodos();
+  Swal.fire({
+    title: "Todo Created!",
+    text: `Your Todo has been added successfully.`,
+    icon: "success",
+    timer: 2000,
+  });
+
   form.reset();
 
   let tr = document.createElement("tr");
@@ -88,6 +95,7 @@ function editTodo(ele) {
   localStorage.setItem("editId", editId);
 
   let editObj = todoArr.find((ele) => ele.id === editId);
+  if (!editObj) return;
 
   taskName.value = editObj.taskName;
   priority.value = editObj.priority;
@@ -96,4 +104,51 @@ function editTodo(ele) {
   updateBtn.classList.remove("d-none");
 }
 
+// update
+
+function onUpdateClick() {
+  let updateId = localStorage.getItem("editId");
+
+  if (!taskName.value.trim() || !priority.value.trim()) {
+    Swal.fire({
+      title: "Required Fields!",
+      text: "Please fill in all the fields.",
+      icon: "warning",
+      timer: 1500,
+    });
+    return;
+  }
+
+  let updatedObj = {
+    id: updateId,
+    taskName: taskName.value.trim(),
+    priority: priority.value.trim(),
+  };
+
+  let getIndex = todoArr.findIndex((ele) => ele.id === updateId);
+  if (getIndex === -1) return;
+  todoArr[getIndex] = updatedObj;
+  saveTodos();
+
+  Swal.fire({
+    title: "Todo Updated!",
+    text: `Your Todo has been updated successfully.`,
+    icon: "success",
+    timer: 2000,
+  });
+
+  // UI
+
+  let td = [...document.getElementById(updateId).children];
+
+  td[1].innerText = updatedObj.taskName;
+  td[2].innerText = updatedObj.priority;
+
+  updateBtn.classList.add("d-none");
+  submitBtn.classList.remove("d-none");
+  localStorage.removeItem("editId");
+  form.reset();
+}
+
 form.addEventListener("submit", onTodoAdd);
+updateBtn.addEventListener("click", onUpdateClick);
