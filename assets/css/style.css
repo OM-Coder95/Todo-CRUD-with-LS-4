@@ -127,6 +127,10 @@ label {
     transform: scale(1.15);
 }
 
+.actionTd {
+    white-space: nowrap;
+}
+
 /* Delete all */
 
 .todoBody .deleteAll {
@@ -165,5 +169,15 @@ label {
     .todoTable thead th,
     .todoTable tbody td {
         padding: 10px 5px;
+    }
+
+
+    .actionTd .btn {
+        padding: 2px 5px;
+    }
+
+    .actionTd .btn i {
+        font-size: 16px;
+
     }
 }

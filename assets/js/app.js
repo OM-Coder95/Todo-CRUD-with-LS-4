@@ -84,7 +84,7 @@ function showOnUI(arr) {
                                     <td>${i + 1}</td>
                                     <td>${ele.taskName}</td>
                                     <td>${ele.priority}</td>
-                                    <td>
+                                    <td class="actionTd">
                                         <button onclick="editTodo(this)" class="btn"><i class="fa-regular fa-pen-to-square fa-2x text-primary"></i></button>
                                         <button onclick="removeTodo(this)" class="btn deleteIcon"><i class="fa-solid fa-trash-can fa-2x text-danger"></i></button>
                                     </td>
@@ -138,7 +138,7 @@ function onTodoAdd(event) {
                                     <td>${todoArr.length}</td>
                                     <td>${newTodo.taskName}</td>
                                     <td>${newTodo.priority}</td>
-                                    <td>
+                                    <td class="actionTd">
                                         <button onclick="editTodo(this)" class="btn"><i class="fa-regular fa-pen-to-square fa-2x text-primary"></i></button>
                                         <button onclick="removeTodo(this)" class="btn deleteIcon"><i class="fa-solid fa-trash-can fa-2x text-danger"></i></button>
                                     </td>
