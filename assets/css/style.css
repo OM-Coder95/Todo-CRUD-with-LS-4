@@ -155,6 +155,7 @@ label {
     .submitBtn,
     .updateBtn {
         width: 48%;
+        margin-top: 10px;
     }
 
     .todoTable {
