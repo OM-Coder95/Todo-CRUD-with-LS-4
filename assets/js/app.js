@@ -6,6 +6,8 @@ const taskName = document.getElementById("taskName");
 const priority = document.getElementById("priority");
 const submitBtn = document.getElementById("submitBtn");
 const updateBtn = document.getElementById("updateBtn");
+const todoTableParent = document.getElementById("todoTableParent");
+const deleteAll = document.getElementById("deleteAll");
 
 let jsonArr = localStorage.getItem("todoArr");
 
@@ -16,6 +18,26 @@ let todoArr = jsonArr ? JSON.parse(jsonArr) : [];
 function saveTodos() {
   localStorage.setItem("todoArr", JSON.stringify(todoArr));
 }
+
+// If Array Empty
+
+function hideTable() {
+  if (todoArr.length === 0) {
+    todoTableParent.classList.add("d-none");
+  } else {
+    todoTableParent.classList.remove("d-none");
+  }
+}
+
+// DeleteAll
+
+function onDeleteAllClick() {
+  todoArr = [];
+  saveTodos();
+  showOnUI(todoArr);
+  hideTable();
+}
+
 // Read
 
 function showOnUI(arr) {
@@ -29,7 +51,7 @@ function showOnUI(arr) {
                                     <td>${ele.priority}</td>
                                     <td>
                                         <i onclick="editTodo(this)" class="fa-regular fa-pen-to-square fa-2x text-primary"></i>
-                                        <i class="fa-solid fa-trash-can fa-2x text-danger"></i>
+                                        <i onclick="removeTodo(this)" class="fa-solid fa-trash-can fa-2x text-danger"></i>
                                     </td>
                                 </tr>
         `;
@@ -38,6 +60,7 @@ function showOnUI(arr) {
 }
 
 showOnUI(todoArr);
+hideTable();
 
 // Create
 
@@ -62,6 +85,7 @@ function onTodoAdd(event) {
 
   todoArr.push(newTodo);
   saveTodos();
+  hideTable();
   Swal.fire({
     title: "Todo Created!",
     text: `Your Todo has been added successfully.`,
@@ -81,7 +105,7 @@ function onTodoAdd(event) {
                                     <td>${newTodo.priority}</td>
                                     <td>
                                         <i onclick="editTodo(this)" class="fa-regular fa-pen-to-square fa-2x text-primary"></i>
-                                        <i class="fa-solid fa-trash-can fa-2x text-danger"></i>
+                                        <i onclick="removeTodo(this)" class="fa-solid fa-trash-can fa-2x text-danger"></i>
                                     </td>
   `;
 
@@ -150,5 +174,61 @@ function onUpdateClick() {
   form.reset();
 }
 
+// remove Todo
+
+function removeTodo(ele) {
+  let removeId = ele.closest("tr").id;
+
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    buttonsStyling: false,
+  });
+  swalWithBootstrapButtons
+    .fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        let getIndex = todoArr.findIndex((ele) => ele.id === removeId);
+        if (getIndex === -1) return;
+
+        todoArr.splice(getIndex, 1);
+        saveTodos();
+        hideTable();
+
+        swalWithBootstrapButtons.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          timer: 1500,
+        });
+
+        ele.closest("tr").remove();
+
+        let srno = [
+          ...document.querySelectorAll("#todocontainer tr td:first-child"),
+        ];
+        srno.forEach((ele, i) => (ele.innerText = i + 1));
+      } else if (result.dismiss === Swal.DismissReason.cancel)
+        /* Read more about handling dismissals below */
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          text: "Your imaginary file is safe :)",
+          icon: "error",
+          timer: 1500,
+        });
+    });
+}
+
 form.addEventListener("submit", onTodoAdd);
 updateBtn.addEventListener("click", onUpdateClick);
+deleteAll.addEventListener("click", onDeleteAllClick);
